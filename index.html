@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="nombre1">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,88 +13,183 @@
             sizes="32x32"
             href="./images/favicon-32x32.png"
         >
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+        
         <title>Frontend Mentor | Interactive comments section</title>
     </head>
-    <body>
-        <main>
-            <section>
-                <article>
-                    <header>
-                        <img src="images/avatars/image-amyrobson.png" alt="amyrobson">
-                        <p>amyrobson</p>
-                        <p>You</p>
-                        <p>1 month ago</p>
-                    </header>
-                    <p>
-                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aliquid illum ratione alias magnam laudantium dolor nulla soluta, non doloribus velit quibusdam exercitationem adipisci! Maxime illum cum qui totam sunt magni.
-                    </p>
-                    <footer>
-                        <section>
-                            <img src="images/icon-plus.svg" alt="plus">10
-                            <img src="images/icon-minus.svg" alt="menus">
+    <body ng-controller="datosDeComentarios">
+        <main id="main">
+            <!------- ------------------1. comentarios ----------------------- -->
+            <section id="comentarios" class="comentarios">
+                <div id="comentario{{$index}}" ng-repeat="comentario in dataJson.comments track by $index">
+                    <article >
+                        <header>
+                            <img ng-srcset="{{comentario.user.image.png}}" alt="{{comentario.user.username}}">
+                            <p>{{comentario.user.username}}</p>
+                            <p ng-show="usuario_inicial === '{{comentario.user.username}}'" class="tusComentarios"> You</p>
+                            <p class="creadoEn">{{comentario.createdAt}}</p>
+                        </header>
+                        <p id="contenido_replica_n_{{comentario.id}}">{{comentario.content}}</p>
+                        <textarea
+                        name="comment"
+                        id="textarea_replica_n_{{comentario.id}}"
+                        cols="30"
+                        rows="5"
+                        class="ocultar"
+                    ></textarea>
+                        <footer>
+                            <section>
+                                <img src="images/icon-plus.svg" alt="plus" ng-click="comentario.score = comentario.score + 1">
+                                {{comentario.score}}
+                                <img src="images/icon-minus.svg" alt="menus" ng-click="comentario.score = comentario.score - 1">
+                            </section>
+                            <p
+                                class="boton_eliminar"
+                                id="boton_eliminar_n_{{comentario.id}}"
+                                ng-show="{{usuario_inicial == comentario.user.username}}"
+                                                                ng-click="eviarIndexYReplica($index, comentario)"
+                                        data-bs-toggle="modal" data-bs-target="#exampleModal"
+                            >
+                                <img src="/images/icon-delete.svg" alt="">
+                                Delete
+                            </p>
+                            <p
+                                class="boton_editar"
+                                id="boton_editar_n_{{comentario.id}}"
+                                ng-show="usuario_inicial === '{{comentario.user.username}}'"
+                                ng-click="editarReplica(comentario.id, $index, true)"
+                            >
+                                <img src="./images/icon-edit.svg" alt="">
+                                Edit
+                            </p>
+                            <p class="boton_editar ocultar" id="boton_actualizar_n_{{comentario.id}}" ng-click="actualizarReplica(comentario.id, $index, true)">
+                                UPDATE
+                            </p>
+                            <button id="boton_replica_n_{{comentario.id}}" ng-click="activar_caja_replica(comentario, $index, true)" ng-show="usuario_inicial !== '{{comentario.user.username}}'">
+                                <img src="images/icon-reply.svg" alt="">
+                                Reply
+                            </button>
+                        </footer>
+                    </article>
+                    <!-----------------------1.1 replicas hechas al comentario---------------------->
+                    <section class="replicas_comentarios">
+                        <div id="replica_n_{{replica.id}}" ng-repeat="replica in comentario.replies ">
+                            <article>
+                                <header>
+                                    <img ng-srcset="{{replica.user.image.png}}" alt="{{replica.user.username}}">
+                                    <p>{{replica.user.username}}</p>
+                                    <p ng-show="usuario_inicial === '{{replica.user.username}}'" class="tusComentarios"> You</p>
+                                    <p class="creadoEn">{{replica.createdAt}}</p>
+                                </header>
+                                <p id="contenido_replica_n_{{replica.id}}">{{replica.content}}</p>
+                                <textarea
+                                    name="comment"
+                                    id="textarea_replica_n_{{replica.id}}"
+                                    cols="30"
+                                    rows="5"
+                                    class="ocultar"
+                                ></textarea>
+                                <footer>
+                                    <section>
+                                        <img src="images/icon-plus.svg" alt="plus" ng-click="replica.score = replica.score + 1">
+                                        {{replica.score}}
+                                        <img src="images/icon-minus.svg" alt="menus" ng-click="replica.score = replica.score - 1">
+                                    </section>
+                                    <p
+                                        class="boton_eliminar"
+                                        id="boton_eliminar_n_{{replica.id}}"
+                                        ng-show="usuario_inicial === '{{replica.user.username}}'"
+                                        ng-click="eviarIndexYReplica($index, replica)"
+                                        data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                    >
+                                        <img src="/images/icon-delete.svg" alt="">
+                                        Delete
+                                    </p>
+                                    <p
+                                        class="boton_editar"
+                                        id="boton_editar_n_{{replica.id}}"
+                                        ng-show="usuario_inicial === '{{replica.user.username}}'"
+                                        ng-click="editarReplica(replica.id, $index, false)"
+                                    >
+                                        <img src="./images/icon-edit.svg" alt="">
+                                        Edit
+                                    </p>
+                                    <p class="boton_editar ocultar" id="boton_actualizar_n_{{replica.id}}" ng-click="actualizarReplica(replica.id, null , false)">
+                                        UPDATE
+                                    </p>
+                                    <button id="boton_replica_n_{{replica.id}}" ng-show="usuario_inicial !== '{{replica.user.username}}'" ng-click="activar_caja_replica(replica, null , false)">
+                                        <img src="images/icon-reply.svg" alt="replicar">
+                                        Reply
+                                    </button>
+                                </footer>
+                            </article>
+                        </div>
+                        <section class="caja_replica ocultar" id="caja_replica{{comentario.id}}">
+                            <textarea
+                                name="comment"
+                                id="textarea_{{comentario.id}}"
+                                cols="30"
+                                rows="10"
+                                placeholder="Add a comment"
+                                required
+                            ></textarea>
+                            <form name="form">
+                                <img ng-srcset="./images/avatars/image-juliusomo.webp">
+                                <button ng-click="adicionarReplica( $index, comentario)"  ng-disabled="form.$invalid">
+                                    Reply
+                                </button>
+                            </form>
                         </section>
-                        <button>
-                            <img src="images/icon-reply.svg" alt=""> Reply
-                        </button>
-                    </footer>
-                </article>
-                <section class="commits">
-                    <article>
-                        <header class="header-comment">
-                            <img src="images/avatars/image-amyrobson.png" alt="amyrobson">
-                            <p>amyrobson</p>
-                            <p>You</p>
-                            <p>1 month ago</p>
-                        </header>
-                        <p>
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aliquid illum ratione alias magnam laudantium dolor nulla soluta, non doloribus velit quibusdam exercitationem adipisci! Maxime illum cum qui totam sunt magni.
-                        </p>
-                        <footer>
-                            <section>
-                                <img src="images/icon-plus.svg" alt="plus">10
-                                <img src="images/icon-minus.svg" alt="menus">
-                            </section>
-                            <button>
-                                <img src="images/icon-reply.svg" alt=""> Reply
-                            </button>
-                        </footer>
-                    </article>
-                    <article>
-                        <header class="header-comment">
-                            <img src="images/avatars/image-amyrobson.png" alt="amyrobson">
-                            <p>amyrobson</p>
-                            <p>You</p>
-                            <p>1 month ago</p>
-                        </header>
-                        <p>
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aliquid illum ratione alias magnam laudantium dolor nulla soluta, non doloribus velit quibusdam exercitationem adipisci! Maxime illum cum qui totam sunt magni.
-                        </p>
-                        <footer>
-                            <section>
-                                <img src="images/icon-plus.svg" alt="plus">10
-                                <img src="images/icon-minus.svg" alt="menus">
-                            </section>
-                            <button>
-                                <img src="images/icon-reply.svg" alt=""> Reply
-                            </button>
-                        </footer>
-                    </article>
-                </section>
+                    </section>
+                </div>
             </section>
+
+            <!-- ----------------------------- modal de cierre---------------------------- -->
+
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Delete comment</h1>
+        </div>
+        <div class="modal-body">
+          ¿Estas seguro de que quieres borrar este comentario? Se borrara para siempre.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" ng-click="eliminarReplicaOComentario($index, replica)"  data-bs-dismiss="modal">Borrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+            <!-- ---------------------------------------------------------------------------------- -->
+
+            <!--------------- ---------- Caja para comentario -------------------------------------------- -->
             <section class="add-comment">
-              <div class="div-texarea">
+                <div class="div-texarea">
+                    <textarea
+                        name="comment"
+                        id="textarea_añadir_comentario"
+                        cols="30"
+                        rows="10"
+                        placeholder="Add a comment"
+                        ng-model="comentario_adicional"
+                    ></textarea>
+                </div>
+                <div>
+                    <img ng-srcset="{{dataJson.currentUser.image.webp}}" alt="amyrobson">
+                    <button ng-click="adicionarComentario(comentario_adicional)">
+                        SEND
+                    </button>
+                </div>
+            </section>
 
-                <textarea name="comment" id="comment" cols="30" rows="10" placeholder="Add a comment"></textarea>
-              </div>
-
-              <div>
-                  <img src="images/avatars/image-amyrobson.png" alt="amyrobson">
-                  <button>
-                    SEND
-                </button>
-              </div>
-
-          </section>
         </main>
         <footer>
             <div class="attribution">
@@ -102,9 +197,12 @@
                 <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>
                 . 
      Coded by
-                <a href="#">Your Name Here</a>
+                <a href="#">Giovani</a>
                 .
             </div>
         </footer>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <script src="angular.js"></script>
+        <script src="index.js"></script>
     </body>
 </html>

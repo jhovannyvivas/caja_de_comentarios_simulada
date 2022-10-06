@@ -1,21 +1,22 @@
 :root {
-    --moderate-blue: hsl(238, 40%, 52%);
-    --soft-red: hsl(358, 79%, 66%);
-    --light-grayish-blue: hsl(239, 57%, 85%);
+    --moderate-blue1: hsl(238, 40%, 52%);
+    --soft-red1: hsl(358, 79%, 66%);
+    --light-gray1ish-blue: hsl(239, 57%, 85%);
     --pale-red: hsl(357, 100%, 86%);
     --dark-blue: hsl(212, 24%, 26%);
     --grayish-blue: hsl(211, 10%, 45%);
-    --light-gray: hsl(223, 19%, 93%);
+    --light-gray1: hsl(223, 19%, 93%);
     --very-light-gray: hsl(228, 33%, 97%);
     --white: hsl(0, 0%, 100%);
     --size-paragraph: 16px;
+    --tipografia: 'Rubik';
 }
 
 body {
-    font-family: 'Rubik';
-    font-size: var(--size-paragraph);
-    margin: 0;
-    background: var(--light-gray);
+    font-family: 'Rubik' !important;
+    font-size: var(--size-paragraph) !important;
+    margin: 0 !important;
+    background: var(--light-gray1) !important;
 }
 
 main {
@@ -46,19 +47,63 @@ article header p:nth-child(2) {
 
 }
 
-article header p:nth-child(3) {
+article textarea {
+    resize: none;
+    width: calc(100% - 30px);
+    border: solid 1px var(--light-gray1ish-blue);
+    font-size: var(--size-paragraph);
+    color: var(--grayish-blue);
+    margin: 0 15px 0;
+    border-radius: 8px;
+    padding: 10px 10px;
+    font-family: var(--tipografia);
+
+}
+
+.boton_eliminar {
+    border:none;
+    font-size: var(--size-paragraph);
+    font-weight: 500;
+    background-color: var(--white);
+    color: var(--soft-red1);
+    font-family: 'Rubik';
+    cursor: pointer;
+}
+
+.boton_eliminar img {
+    margin-right: 5px;
+}
+
+
+.boton_editar {
+    border:none;
+    font-size: var(--size-paragraph);
+    font-weight: 500;
+    background-color: var(--white);
+    color: var(--moderate-blue1);
+    font-family: 'Rubik';
+    cursor: pointer;
+}
+
+.boton_editar img {
+    margin-right: 5px;
+}
+
+
+
+.tusComentarios {
 padding: 1px 3px;
-background-color: var(--moderate-blue);
+background-color: var(--moderate-blue1);
 font-size: 13px;
 border-radius: 3px;
 color: white;
-margin-right: 10px;
+margin: 10px;
 }
 
-article header p:nth-child(4) {
+.creadoEn {
     font-weight: 400;
     color: var(--grayish-blue);
-    margin-left: 10px;
+    margin: 10px;
 
 }
 
@@ -66,6 +111,9 @@ article>p {
     color: var(--grayish-blue);
     margin: 15px 15px;
     line-height: 23px;
+    word-break: break-all;
+    white-space: normal;
+    
 }
 
 article footer {
@@ -76,19 +124,21 @@ article footer {
 }
 
 article footer section {
-    background-color: var(--light-gray);
+    background-color: var(--light-gray1);
     border-radius: 10px;
     height: 30px;
     display: flex;
     align-items: center;
     justify-content: space-around;
-    color: var(--moderate-blue);
+    color: var(--moderate-blue1);
     padding: 4px 3px;
     font-weight: 500;
+    width: 80px;
 }
 
 article footer section img {
     padding: 10px;
+    cursor: pointer;
 }
 
 article footer button {
@@ -96,8 +146,9 @@ article footer button {
     font-size: var(--size-paragraph);
     font-weight: 500;
     background-color: var(--white);
-    color: var(--moderate-blue);
+    color: var(--moderate-blue1);
     font-family: 'Rubik';
+    cursor: pointer;
 }
 
 article footer button img {
@@ -107,9 +158,36 @@ article footer button img {
 
 
 
-.commits {
+.replicas_comentarios {
     padding-left: 15px;
-    border-left: solid 1px var(--light-grayish-blue);
+    border-left: solid 1px var(--light-gray1ish-blue);
+}
+
+.replicas_comentarios div textarea{
+    resize: none;
+    width: calc(100% - 30px);
+    border: solid 1px var(--light-gray1ish-blue);
+    font-size: var(--size-paragraph);
+    color: var(--grayish-blue);
+    margin: 0 15px 0;
+    border-radius: 8px;
+    padding: 10px 10px;
+    font-family: var(--tipografia);
+}
+
+.replicas_comentarios div p {
+    word-break: break-all;
+    white-space: normal;
+    margin: 10px;
+}
+
+.replicas_comentarios div textarea:focus {
+    outline: none;
+}
+
+.replica_n_355 {
+    padding-left: 15px;
+    border-left: solid 1px var(--light-gray1ish-blue);   
 }
 
 .add-comment {
@@ -126,10 +204,10 @@ article footer button img {
 
 .add-comment textarea {
     resize: none;
-    border: solid 1px var(--light-grayish-blue) ;
+    border: solid 1px var(--light-gray1ish-blue) ;
     padding: 10px 20px 5px;
     height: calc(100% - 20px);
-    width: calc(100% - 42px);
+    width: 100%;
     margin: 0px;
     outline: none;
     font-family: 'Rubik';
@@ -153,13 +231,16 @@ article footer button img {
 .add-comment div img {
     width: 30px;
     height: 30px;
+    
 }
+
+
 
 .add-comment div button {
     border:none;
     font-size: var(--size-paragraph);
     font-weight: 500;
-    background-color: var(--moderate-blue);
+    background-color: var(--moderate-blue1);
     color: white;
     font-family: 'Rubik';
     padding: 14px 34px;
@@ -167,9 +248,95 @@ article footer button img {
     
 }
 
+.ocultar {
+    display: none;
+}
 
+.caja_replica{
+
+    border-radius: 8px;
+    background-color: var(--white);
+
+}
+
+.caja_replica textarea {
+    resize: none;
+    border: none;
+    border-radius: 15px;
+    width: calc(100% - 30px);
+    padding: 14px 25px 0;
+    margin: 15px 15px 15px;
+    height: 100px;
+    font-family: var(--tipografia);
+    color: var(--grayish-blue);
+    font-size: var(--size-paragraph);
+    border: solid 1px var(--light-gray1ish-blue);
+}
+
+.caja_replica textarea:focus {
+    outline: none;
+
+}
+
+
+.caja_replica form{
+    display: flex;
+    align-items: center;  
+    padding: 0 15px 15px;
+    justify-content: space-between;
+    height: 40px;
+}
+
+.caja_replica form img:nth-child(1) {
+    width: 30px;
+    height: 30px;
+
+}
+
+.caja_replica form button {
+    border: none;
+    font-size: var(--size-paragraph);
+    font-weight: 500;
+    background-color: var(--moderate-blue1);
+    color: var(--white);
+    font-family: 'Rubik';
+    cursor: pointer;
+    height: 40px;
+    width: 80px;
+    border-radius: 8px;
+
+
+}
+
+.caja_replica form button img {
+    width: 12px !important;
+    height: 12px !important;
+    padding-right: 5px;
+}
+
+/* .modal-content {
+    width: 80% !important;
+}
+
+.modal {
+    width: 85% !important;
+} */
 
 
 
 .attribution { font-size: 11px; text-align: center; }
 .attribution a { color: hsl(228, 45%, 44%); }
+
+@media (min-width: 500px) {
+    main {
+      margin: auto;
+      width: 60vw;
+    }
+  }
+
+  @media (min-width: 600px) {
+    main {
+      margin: auto;
+      width: 50vw;
+    }
+  }
