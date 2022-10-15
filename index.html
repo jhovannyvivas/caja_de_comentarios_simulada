@@ -24,7 +24,9 @@
             <!------- ------------------1. comentarios ----------------------- -->
             <section id="comentarios" class="comentarios">
                 <div id="comentario{{$index}}" ng-repeat="comentario in dataJson.comments track by $index">
+                    
                     <article >
+                        
                         <header>
                             <img ng-srcset="{{comentario.user.image.png}}" alt="{{comentario.user.username}}">
                             <p>{{comentario.user.username}}</p>
